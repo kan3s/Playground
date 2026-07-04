@@ -12,7 +12,7 @@ param(
 
     [string]$Path = "$HOME\dev",
 
-    [string]$ConfigRoot = "C:\Users\Elkan\dev\claude-config"
+    [string]$ConfigRoot = "$HOME\.claude"
 )
 
 $TemplateRoot = Join-Path $ConfigRoot "project-template"

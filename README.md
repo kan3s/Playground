@@ -1,59 +1,81 @@
-# Personal Claude Code Starter Kit
+# Personal Claude Code Setup
 
-A reusable setup so every new web app project starts with the same guardrails,
-shortcuts, and conventions instead of being configured from scratch.
+This repo *is* `~/.claude`. There's no separate config folder and no symlinks —
+clone this repo to `~/.claude` (or run `install.ps1`, which does that for you),
+and Claude Code reads its config directly from here. Editing a file in this
+repo and editing the "real" config are the same action, because they're the
+same file.
 
-## How to install this
+## Structure
 
-**Global layer — do this once, on your machine:**
+```
+~/.claude/                    (this repo)
+├── install.ps1                One-time setup: prerequisites + wiring
+├── CLAUDE.md                  Personal rules, apply to every project
+├── settings.json              Default permission mode + allow/deny rules
+├── agents/code-reviewer.md    Personal subagent, available everywhere
+├── commands/pr.md             Personal /pr command, available everywhere
+│
+├── project-template/           Cloned into every NEW project (not read by
+│   │                           Claude Code directly from here)
+│   ├── CLAUDE.md               Stack-agnostic skeleton, /init fills it in
+│   ├── .mcp.json                GitHub MCP, token via env var
+│   └── .claude/
+│       ├── settings.json        Self-contained project defaults
+│       ├── agents/               test-writer, security-reviewer
+│       ├── commands/             /new-feature, /fix-issue
+│       └── skills/
+│           ├── a11y-conventions/   Example project skill
+│           └── setup-project/      Interactive wizard (AskUserQuestion)
+│
+└── scripts/
+    └── new-project.ps1         Scaffolds a new project, then opens `claude`
+```
 
-| File in this kit | Goes to |
-|---|---|
-| `global/CLAUDE.md` | `~/.claude/CLAUDE.md` |
-| `global/settings.json` | `~/.claude/settings.json` (merge by hand if you already have one) |
-| `global/agents/*.md` | `~/.claude/agents/` |
-| `global/commands/*.md` | `~/.claude/commands/` |
+`project-template/` and `scripts/` aren't Claude Code config — Claude Code
+only looks at `CLAUDE.md`, `settings.json`, `agents/`, `commands/`, and
+`skills/` directly under `~/.claude/`. They just live in this same repo for
+convenience, since it's all "my personal Claude Code setup" either way.
 
-**Per-project layer — do this for every new project (once that stage exists below):**
+## One-time setup
 
-Copy `project-template/` into a new repo's root, fill in the placeholders for that
-project's stack, then run `/init` inside Claude Code so it fills in anything the
-template couldn't know in advance.
+**On a machine that's never touched Claude Code:**
+```powershell
+git clone https://github.com/<you>/claude-config $HOME\.claude
+cd $HOME\.claude
+.\install.ps1
+```
 
-## Status
+**On a machine that already has `~/.claude` (Claude Code has been run before,
+or you're migrating from an older symlink-based version of this setup):**
+```powershell
+git clone https://github.com/<you>/claude-config $HOME\dev\claude-config-setup
+cd $HOME\dev\claude-config-setup
+.\install.ps1
+```
+`install.ps1` detects the existing `~/.claude`, removes any old symlinks,
+copies this repo's files in (preserving Claude Code's own internal state),
+and turns `~/.claude` itself into the git repo going forward.
 
-- [x] **Global layer** — personal `CLAUDE.md`, `settings.json` (acceptEdits by default),
-      a `code-reviewer` subagent, a `/pr` command
-- [x] **Project template** — `CLAUDE.md` skeleton, `.claude/settings.json`,
-      `.gitignore` additions, and a per-project `README.md` walking through setup
-- [x] **Project subagents** — `test-writer` (writes tests, infers the framework
-      in use), `security-reviewer` (read-only, auth/input/data-handling focus)
-- [x] **Project commands** — `/new-feature` (plan → implement → test → summarize),
-      `/fix-issue` (issue → fix → test → PR, composes with `/pr` and `test-writer`)
-- [x] **GitHub MCP + example skill** — `.mcp.json` (GitHub, token via env var,
-      never committed), `.claude/skills/a11y-conventions/` (example project skill)
+Either way, `install.ps1` also installs Git/GitHub CLI/Claude Code if any are
+missing, and adds a `newproj` shortcut to your PowerShell profile. Safe to
+re-run — every step checks whether it's already done first.
 
-Kit complete. Everything above is ready to copy into `~/.claude/` (global) and
-into every new project (`project-template/`).
+## Day to day
 
-## Added after initial completion
+```powershell
+newproj my-cool-app
+```
+Scaffolds the project, runs `git init`, and drops you into a live Claude Code
+session. Type `/setup-project` to answer a few questions (stack, commands,
+permissions, deploy target) and have Claude fill in the rest. From there:
+`/new-feature "..."` for new work, `/fix-issue 123` for bugs, `/pr` to open
+a pull request.
 
-- [x] **`setup-project` skill** — an interactive wizard (`.claude/skills/setup-project/`)
-      that asks a few grouped questions via Claude Code's built-in AskUserQuestion
-      tool, then fills in `CLAUDE.md`'s Commands section and
-      `.claude/settings.json`'s allow list automatically. It also proposes
-      relevant plugins/skills/MCP servers for the confirmed stack, but never
-      installs anything without an explicit yes on that specific item.
-- [x] **`scripts/new-project.ps1`** — pre-Claude scaffolding. Copies the
-      template into a new folder, builds `.gitignore`, runs `git init`, then
-      drops you straight into a `claude` session so `/setup-project` can take
-      over. The two capabilities chain together: one command takes you from
-      nothing to answering setup questions in Claude Code.
+## Why this structure
 
-## Your setup, for reference
-
-- Tech stack: varies per project → the project template stays stack-agnostic with
-  placeholders rather than hardcoding one framework's commands.
-- Default autonomy: `acceptEdits` (file edits auto-approved, commands still ask).
-- Version control: GitHub → commands and hooks below assume `gh` CLI is installed
-  and authenticated (`gh auth login` if you haven't already).
+Earlier versions of this setup kept `~/.claude` and the source repo separate,
+connected by symlinks, which needed Developer Mode enabled and was the most
+fragile part of the whole system. Making `~/.claude` the repo directly
+removes that failure mode entirely — one location, no links to break, still
+fully versioned and portable to a new machine via `git clone`.
