@@ -19,12 +19,12 @@ $TemplateRoot = Join-Path $ConfigRoot "project-template"
 $Destination  = Join-Path $Path $Name
 
 if (-not (Test-Path $TemplateRoot)) {
-    Write-Error "Template not found at $TemplateRoot — check -ConfigRoot."
+    Write-Error "Template not found at $TemplateRoot - check -ConfigRoot."
     exit 1
 }
 
 if (Test-Path $Destination) {
-    Write-Error "'$Destination' already exists — pick a different name or -Path."
+    Write-Error "'$Destination' already exists - pick a different name or -Path."
     exit 1
 }
 
@@ -32,7 +32,7 @@ Write-Host "Scaffolding '$Name' at $Destination ..."
 
 New-Item -ItemType Directory -Force -Path $Destination | Out-Null
 
-# Copy the template's real contents — deliberately skips the template's own
+# Copy the template's real contents - deliberately skips the template's own
 # README.md and gitignore.append.txt, since those are meta-docs about the
 # template itself, not files a real project should end up with.
 Copy-Item "$TemplateRoot\CLAUDE.md" "$Destination\CLAUDE.md"
@@ -52,7 +52,7 @@ git commit -m "Scaffold from personal Claude Code template" | Out-Null
 
 Write-Host ""
 Write-Host "'$Name' is ready at $Destination"
-Write-Host "Dropping you into Claude Code now — run /setup-project once it opens."
+Write-Host "Dropping you into Claude Code now - run /setup-project once it opens."
 Write-Host ""
 
 claude

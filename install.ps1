@@ -13,7 +13,7 @@
 #        preserving Claude Code's own internal state.
 #   3. Adds the `newproj` shortcut to your PowerShell profile.
 #
-# Safe to re-run — every step checks whether it's already done first.
+# Safe to re-run - every step checks whether it's already done first.
 
 $RepoRoot   = $PSScriptRoot
 $ClaudeHome = "$HOME\.claude"
