@@ -1,0 +1,26 @@
+# This repo IS ~/.claude. Claude Code also writes its own internal state here
+# (session history, shell snapshots, caches, etc.) that we never want tracked.
+#
+# Rather than trying to list every internal file Claude Code might create —
+# which changes across versions — this ignores everything by default and
+# explicitly un-ignores only what we've actually authored. Anything new
+# Claude Code adds in the future stays untracked automatically.
+
+/*
+!.gitignore
+!README.md
+!CLAUDE.md
+!settings.json
+!install.ps1
+
+!agents/
+!agents/**
+!commands/
+!commands/**
+!skills/
+!skills/**
+
+!project-template/
+!project-template/**
+!scripts/
+!scripts/**
