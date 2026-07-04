@@ -36,6 +36,20 @@ template couldn't know in advance.
 Kit complete. Everything above is ready to copy into `~/.claude/` (global) and
 into every new project (`project-template/`).
 
+## Added after initial completion
+
+- [x] **`setup-project` skill** — an interactive wizard (`.claude/skills/setup-project/`)
+      that asks a few grouped questions via Claude Code's built-in AskUserQuestion
+      tool, then fills in `CLAUDE.md`'s Commands section and
+      `.claude/settings.json`'s allow list automatically. It also proposes
+      relevant plugins/skills/MCP servers for the confirmed stack, but never
+      installs anything without an explicit yes on that specific item.
+- [x] **`scripts/new-project.ps1`** — pre-Claude scaffolding. Copies the
+      template into a new folder, builds `.gitignore`, runs `git init`, then
+      drops you straight into a `claude` session so `/setup-project` can take
+      over. The two capabilities chain together: one command takes you from
+      nothing to answering setup questions in Claude Code.
+
 ## Your setup, for reference
 
 - Tech stack: varies per project → the project template stays stack-agnostic with
