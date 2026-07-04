@@ -1,0 +1,4 @@
+# --- Claude Code: append these lines to your project's .gitignore ---
+
+# Personal permission overrides — not shared with collaborators or CI
+.claude/settings.local.json

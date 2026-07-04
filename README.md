@@ -24,7 +24,8 @@ template couldn't know in advance.
 
 - [x] **Global layer** — personal `CLAUDE.md`, `settings.json` (acceptEdits by default),
       a `code-reviewer` subagent, a `/pr` command
-- [ ] Project template — `CLAUDE.md` skeleton, `.claude/settings.json`, `.gitignore` additions
+- [x] **Project template** — `CLAUDE.md` skeleton, `.claude/settings.json`,
+      `.gitignore` additions, and a per-project `README.md` walking through setup
 - [ ] Project subagents — `test-writer`, `security-reviewer`
 - [ ] Project commands — `/new-feature`, `/fix-issue`
 - [ ] GitHub MCP config + an example project skill
