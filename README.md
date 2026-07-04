@@ -26,8 +26,10 @@ template couldn't know in advance.
       a `code-reviewer` subagent, a `/pr` command
 - [x] **Project template** — `CLAUDE.md` skeleton, `.claude/settings.json`,
       `.gitignore` additions, and a per-project `README.md` walking through setup
-- [ ] Project subagents — `test-writer`, `security-reviewer`
-- [ ] Project commands — `/new-feature`, `/fix-issue`
+- [x] **Project subagents** — `test-writer` (writes tests, infers the framework
+      in use), `security-reviewer` (read-only, auth/input/data-handling focus)
+- [x] **Project commands** — `/new-feature` (plan → implement → test → summarize),
+      `/fix-issue` (issue → fix → test → PR, composes with `/pr` and `test-writer`)
 - [ ] GitHub MCP config + an example project skill
 
 ## Your setup, for reference
