@@ -30,3 +30,18 @@
    ```
    This is the one step that has to happen per-project, since the template stays
    stack-agnostic on purpose.
+6. This template also includes `.mcp.json` (a GitHub MCP connection) and
+   `.claude/skills/a11y-conventions/` (an example project skill). To activate
+   the GitHub MCP server, generate a fine-grained GitHub personal access token
+   scoped to the repos you want Claude to touch, then set it as an environment
+   variable (don't hardcode it — `.mcp.json` reads it via `${GITHUB_PAT}` so
+   the token itself never gets committed):
+   ```powershell
+   [Environment]::SetEnvironmentVariable("GITHUB_PAT", "your-token-here", [EnvironmentVariableTarget]::User)
+   ```
+   Open a new terminal, run `claude`, then `/mcp` to confirm it connects.
+7. Add more skills the same way as `a11y-conventions` — a folder under
+   `.claude/skills/` with a `SKILL.md` (name + description frontmatter, then
+   instructions in Markdown). Claude loads them automatically based on the
+   description, so make that field specific.
+

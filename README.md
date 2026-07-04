@@ -30,7 +30,11 @@ template couldn't know in advance.
       in use), `security-reviewer` (read-only, auth/input/data-handling focus)
 - [x] **Project commands** — `/new-feature` (plan → implement → test → summarize),
       `/fix-issue` (issue → fix → test → PR, composes with `/pr` and `test-writer`)
-- [ ] GitHub MCP config + an example project skill
+- [x] **GitHub MCP + example skill** — `.mcp.json` (GitHub, token via env var,
+      never committed), `.claude/skills/a11y-conventions/` (example project skill)
+
+Kit complete. Everything above is ready to copy into `~/.claude/` (global) and
+into every new project (`project-template/`).
 
 ## Your setup, for reference
 
