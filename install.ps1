@@ -106,8 +106,15 @@ git add .
 git commit -m "Set up ~/.claude as its own repo" *> $null
 
 # --- 3. newproj shortcut --------------------------------------------------
+# Note: this checks whether the CORRECT block is present, not just whether
+# the name "New-ClaudeProject" exists somewhere. An older setup (or a
+# previous version of this repo) could have that name pointing at a stale
+# path -- checking name-only would silently trust a broken reference. This
+# also means re-running install.ps1 resets any manual edits you made to this
+# specific function back to the version below -- if you've customized it,
+# note that before re-running.
 
-Write-Host "`n== Adding the newproj shortcut ==" -ForegroundColor Cyan
+Write-Host "`n== Checking the newproj shortcut ==" -ForegroundColor Cyan
 
 $funcBlock = @'
 function New-ClaudeProject {
@@ -121,11 +128,23 @@ if (-not (Test-Path $PROFILE)) {
     New-Item -ItemType File -Path $PROFILE -Force | Out-Null
 }
 
-if ((Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue) -notmatch "New-ClaudeProject") {
+$profileContent = Get-Content $PROFILE -Raw -ErrorAction SilentlyContinue
+if ($null -eq $profileContent) { $profileContent = "" }
+
+if ($profileContent.Contains($funcBlock)) {
+    Write-Host "'newproj' already points at the current script - nothing to do."
+}
+elseif ($profileContent -match "New-ClaudeProject") {
+    Write-Host "'newproj' exists but points at an old location - replacing it."
+    $pattern = '(?ms)function New-ClaudeProject\s*\{.*?\}\s*Set-Alias newproj New-ClaudeProject\s*'
+    $cleaned = [regex]::Replace($profileContent, $pattern, '').TrimEnd()
+    Set-Content -Path $PROFILE -Value $cleaned
+    Add-Content -Path $PROFILE -Value "`n$funcBlock"
+    Write-Host "Updated 'newproj' to point at $ClaudeHome\scripts\new-project.ps1."
+}
+else {
     Add-Content -Path $PROFILE -Value "`n$funcBlock"
     Write-Host "Added 'newproj' to your PowerShell profile."
-} else {
-    Write-Host "'newproj' is already in your profile - skipped."
 }
 
 Write-Host "`nDone. Open a new PowerShell window, then run:" -ForegroundColor Green
