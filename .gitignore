@@ -12,6 +12,7 @@
 !CLAUDE.md
 !settings.json
 !install.ps1
+!dev-profile.json
 
 !agents/
 !agents/**
