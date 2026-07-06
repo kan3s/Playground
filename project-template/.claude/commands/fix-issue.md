@@ -14,3 +14,12 @@ Issue number: $ARGUMENTS
 6. Run the project's test command and confirm it passes.
 7. Use the /pr command to open a pull request, including "Closes #$ARGUMENTS"
    in the body so GitHub links and auto-closes the issue on merge.
+8. Quick capture check: did this bug reveal an edge case, a gotcha, or a
+   convention worth remembering (e.g. "this endpoint needs X validation
+   because of Y")? Only speak up if something genuinely reusable surfaced. If
+   so, propose ONE specific update with a one-line reason, and wait for a yes.
+   Otherwise skip silently. As with `/new-feature`, hold `CLAUDE.md`'s
+   `Primary approach` section to a much higher bar than a new skill or
+   persona - a single bug fix is rarely enough evidence that the project's
+   fundamental nature has changed; leave sustained-shift detection to
+   `/reflect`.
