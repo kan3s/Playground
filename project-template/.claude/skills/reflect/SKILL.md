@@ -36,15 +36,22 @@ earlier - the bar is "this would help next time," not "this happened once":
   single one. The per-feature/per-fix checkpoints deliberately hold this
   section to a high bar and mostly leave it alone; look here for whether the
   evidence has actually accumulated enough to justify changing it.
+- Skills or personas that have become redundant with each other, or with what
+  `Primary approach` now covers. Each one looked reasonable when it was
+  proposed on its own - this is the pass that looks at the accumulated set
+  and asks whether it still holds together, since nothing else does. More
+  isn't automatically better; a cluttered `.claude/skills/` is harder to
+  trust than a small, accurate one.
 
 ## 3. Propose, don't write
 
 List every candidate together: what it is (new skill / new persona / edit to
-an existing one / edit to `CLAUDE.md`), a one-line reason grounded in what you
-actually observed, and a rough preview of what it would say. Use
-AskUserQuestion so each one can be approved, rejected, or edited individually -
-not an all-or-nothing batch. Only write the ones approved. If nothing cleared
-the bar in Step 2, say so plainly rather than manufacturing proposals.
+an existing one / **merge or retire a redundant one** / edit to `CLAUDE.md`),
+a one-line reason grounded in what you actually observed, and a rough preview
+of what it would say or change. Use AskUserQuestion so each one can be
+approved, rejected, or edited individually - not an all-or-nothing batch. Only
+write the ones approved. If nothing cleared the bar in Step 2, say so plainly
+rather than manufacturing proposals.
 
 ## 4. Mark the checkpoint
 
