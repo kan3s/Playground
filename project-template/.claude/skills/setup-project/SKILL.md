@@ -238,14 +238,37 @@ like 21st.dev - state which in the generated instructions rather than leaving
 it vague. Give it `Read, Write, Edit, Glob, Grep` - unlike the read-only
 reviewers, it needs to actually create files.
 
-**Plugins and MCP servers** - suggest 2-4 relevant pre-built skills/plugins or
-a matching MCP server (e.g. Vercel, if that's the deploy target). If the
-`anthropics/skills` marketplace isn't added yet, note that
-`/plugin marketplace add anthropics/skills` would be needed first.
+**Plugins, skills-with-their-own-installer, and MCP servers** - suggest 2-4
+relevant pre-built options (e.g. a UI-focused skill from `CLAUDE.md`'s "UI
+library preferences" list, or a matching MCP server like Vercel if that's the
+deploy target). Unlike the project-specific skills/personas above, these are
+things Claude doesn't author itself, so "write the file after approval"
+doesn't apply here - the actual mechanism depends on what's being proposed,
+and getting this wrong means claiming something is installed when it isn't:
 
-List every proposal from this step together, each with a one-line reason, and
-wait for me to say which ones (if any) to actually create or install before
-doing anything. Translate the pitch by experience level:
+- **A normal CLI installer** (e.g. a tool with its own `npx <package> init`,
+  the way UI UX Pro Max works): this is an ordinary command, runnable via
+  Bash like any other setup step. Run it after approval, then verify the
+  files it claims to create actually exist before reporting success.
+- **Claude Code's own plugin mechanism** (`/plugin marketplace add`, then
+  `/plugin install` - the path Impeccable specifically documents): this is
+  reported as an interactive, pick-from-a-list flow, not a plain scriptable
+  command, and it's genuinely unclear whether that can be driven
+  autonomously mid-session. State the exact commands needed, attempt them,
+  and explicitly say so if it turns out this needs to be run by hand instead
+  - never report this as done without having actually confirmed it.
+- **An MCP server** (e.g. 21st.dev): write the `.mcp.json` entry - that part
+  is a normal file write, no ambiguity - but say plainly that confirming the
+  connection needs a fresh terminal and `/mcp`, the same as the GitHub MCP
+  setup earlier in this project.
+- **A component source with no installer at all** (Magic UI, React Bits):
+  there's nothing to install now - just note that `frontend-dev` will pull
+  from it directly when it actually builds something.
+
+List every proposal from this step together, each with a one-line reason and
+which of the above mechanisms it needs, and wait for me to say which ones (if
+any) to actually create or install before doing anything. Translate the pitch
+by experience level:
 - `beginner` / `some-experience`: describe the benefit in outcome terms
   ("connect this to GitHub so your changes sync automatically") rather than
   naming the mechanism ("enable the GitHub MCP server").
