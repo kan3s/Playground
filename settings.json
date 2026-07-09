@@ -19,5 +19,13 @@
   "model": "claude-fable-5[1m]",
   "enabledPlugins": {
     "vercel@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/skills"
+      }
+    }
   }
 }

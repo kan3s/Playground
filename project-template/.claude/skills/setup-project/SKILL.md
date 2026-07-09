@@ -1,6 +1,6 @@
 ---
 name: setup-project
-description: Interactively sets up this project - captures the app idea and the user's coding experience level, asks product-context questions, configures stack/commands/permissions/deploy target at a depth matched to that experience, and writes standing CLAUDE.md instructions for communication style, decision-making autonomy, and a domain-appropriate primary approach. Use when starting a new project from the template, or whenever asked to set up or configure the project.
+description: Interactively sets up this project - captures the app idea and the user's coding experience level, asks product-context questions, configures stack/commands/permissions/deploy target (and a UI library, for frontend projects) at a depth matched to that experience, and writes standing CLAUDE.md instructions for communication style, decision-making autonomy, and a domain-appropriate primary approach. Use when starting a new project from the template, or whenever asked to set up or configure the project.
 allowed-tools: AskUserQuestion, Read, Edit, Write, Glob, Grep, Bash
 ---
 
@@ -82,6 +82,24 @@ what the description didn't already cover:
 - **`senior`:** Terse, full control, minimal explanation. Skip a question
   entirely if the description already answered it (e.g. "targeting AWS"
   mentioned up front).
+
+**If the confirmed stack renders UI in a browser** (a JS/web framework, not a
+pure API/CLI/backend), also propose a UI library or component system
+appropriate to that framework. Check `~/.claude/CLAUDE.md` for a "UI library
+preferences" section first - if something there fits the confirmed framework,
+lead with those rather than suggesting something generic; note that a source
+in that list might be a component library, a Claude Code skill, or an MCP
+server, and each gets set up differently (skills/MCP need actual installation
+before Step 5's proposal step; component sources just get referenced by
+`frontend-dev` directly). If nothing in the list fits (wrong framework, or no
+preferences saved yet), fall back to a fresh suggestion - e.g. shadcn/ui +
+Tailwind for a React-based stack, or an equivalent fit for whatever framework
+was confirmed. Scale exactly like the rest of A3: `beginner` gets one clear
+recommendation in outcome language ("this gives you polished-looking buttons
+and forms without designing them from scratch"); `some-experience` gets 2-3
+curated options; `intermediate`/`senior` gets it named directly, or skipped if
+the description already implied a preference. Skip entirely if the project
+has no UI.
 
 **A4. Propose a primary approach, based on the idea.** From the description and
 A2 answers, infer what this project most calls for beyond generic engineering -
@@ -204,6 +222,21 @@ here if it offers something genuinely distinct, like a deeper periodic audit
 rather than everyday attention (e.g. `a11y-conventions` plus the main agent's
 own design lens may already be enough; a separate persona only earns its place
 if it does more than restate the same concern).
+
+If a UI library was chosen in A3, propose a `frontend-dev` persona scoped
+specifically to it. Unlike `Primary approach` (which shapes the main agent's
+everyday attention across *all* work), this is a delegate invoked
+specifically to build or review components, with working knowledge of the
+chosen library's actual conventions: match existing component patterns
+already in the codebase before creating new ones, follow that library's own
+composition/theming idioms rather than generic advice, and work alongside
+`a11y-conventions` rather than duplicating it. How it actually reaches the
+library depends on what kind of source it is - pull component code directly
+for a source like Magic UI or React Bits, call its search tooling for a
+skill-based source like UI UX Pro Max, or use its MCP tools for something
+like 21st.dev - state which in the generated instructions rather than leaving
+it vague. Give it `Read, Write, Edit, Glob, Grep` - unlike the read-only
+reviewers, it needs to actually create files.
 
 **Plugins and MCP servers** - suggest 2-4 relevant pre-built skills/plugins or
 a matching MCP server (e.g. Vercel, if that's the deploy target). If the

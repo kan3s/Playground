@@ -30,6 +30,37 @@ project-level rules win when the two conflict.
 - Don't add or upgrade a dependency without flagging it first — I want to know
   what's entering the project and why.
 
+## UI library preferences
+
+When `/setup-project`'s A3 proposes a UI library for a frontend project, check
+this list first before suggesting something generic. These aren't mutually
+exclusive - mix and match as the project calls for.
+
+**Component sources** (pull real component code directly into the project):
+- Magic UI (magicui.design) - React/Tailwind/Motion, built as a shadcn/ui
+  companion
+- React Bits (reactbits.dev) - animated React components, CSS or Tailwind
+  variants. If accessed via MCP rather than copy-paste, use the official
+  server linked from reactbits.dev itself - there are several unofficial,
+  unrelated third-party "reactbits-mcp-server" packages on npm; don't use one
+  of those without asking first.
+
+**Design-intelligence skills** (install into `.claude/skills/`, not a
+component source themselves):
+- Impeccable (impeccable.style) - via its own Claude Code plugin marketplace;
+  ships with a subagent and hooks alongside the skill
+- UI UX Pro Max (github.com/nextlevelbuilder/ui-ux-pro-max-skill) -
+  style/palette/typography/UX guidance across many stacks, installed via its
+  own CLI
+
+**MCP option:**
+- 21st.dev - official MCP server for searching, installing, and AI-generating
+  components live from an agent. Worth proposing specifically when a project
+  would benefit from generated variants, not just a fixed component set.
+
+If the confirmed framework doesn't fit any of these (not React, or no UI at
+all), fall back to proposing sensibly from scratch, same as before.
+
 ## Communication
 
 - When you finish a task, tell me what changed and how to verify it (the command
